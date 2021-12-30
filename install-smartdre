@@ -12,8 +12,7 @@ DESKTOP=$XDG_CURRENT_DESKTOP
 # Copia el script en el sistema que comprueba que existe la extensión gnome appindicator 
 # En caso contrario la descarga y la instala en el usuario local
 
-if [[ $DESKTOP = ubuntu:GNOME || $DESKTOP = ubuntu || $DESKTOP = GNOME || $DESKTOP = UBUNTU || $DESKTOP = gnome ]]
-	then
+
 		echo ""
         	echo -e "${ROJO}Escritorio basado en GNOME${NORMAL}"
 		echo ""
@@ -28,35 +27,7 @@ if [[ $DESKTOP = ubuntu:GNOME || $DESKTOP = ubuntu || $DESKTOP = GNOME || $DESKT
     		sudo chmod +x /usr/bin/check-appindicator-gnome-extension 
 		sudo cp check-appindicator-gnome-extension.desktop /etc/xdg/autostart/
     	
-    	else
-        	echo ""
-        	echo -e "${ROJO}Escritorio no basado en GNOME${NORMAL}"
-		echo ""
-        	echo -e "${ROJO}Desktop not-based on GNOME${NORMAL}"
-		echo ""
-		echo ""
-		echo -e "${AZUL}Desktop environment $XDG_CURRENT_DESKTOP${NORMAL}"
-		sleep 4
-    	fi
 
-# Establecer la distribución en la que se basa el sistema host.
-# 
-	if [[ $DISTRO = focal || $DISTRO = ulyana || $DISTRO = ulyssa || $DISTRO = uma ]]
-	then
-        	BASED=focal
-    	elif
-    	[[ $DISTRO = bionic || $DISTRO = tricia || $DISTRO = tina || $DISTRO = tessa || $DISTRO = tara ]]
-    	then
-        	BASED=bionic
-    	else
-        	echo ""
-		echo -e "${ROJO}Esta instalación no es compatible con tu sistema${NORMAL}" 
-		echo ""
-		echo -e "${ROJO}This install process is not compatible with your system${NORMAL}"
-		echo ""
-		sleep 4
-		exit
-    	fi
 
 	echo ""
 	echo System codename $DISTRO
@@ -86,25 +57,6 @@ if [[ $DESKTOP = ubuntu:GNOME || $DESKTOP = ubuntu || $DESKTOP = GNOME || $DESKT
 	
 #Instalación paquetes/drivers nwfermi en el sistema host
 #
-	if [[ $BASED = focal ]]
-	then
-		echo ""
-		echo -e "${AZUL}Tu sistema Linux está basado en Ubuntu focal, instalando drivers...${NORMAL}"
-		echo ""
-		echo -e "${AZUL}Your system is based on Ubuntu Focal, installing drivers...${NORMAL}"
-		echo ""
-		sleep 4
-		sudo apt-get install git -y
-		sudo apt-get install dkms -y
-		git clone https://github.com/aosucas499/nwfermi
-		cd nwfermi
-		chmod +x nwfermi-focal.sh
-		sudo ./nwfermi-focal.sh
-		cd ..
-		sudo rm -r nwfermi
-	
-	elif [[ $BASED = bionic ]]
-	then
 		echo ""
 		echo -e "${AZUL}Tu sistema Linux está basado en Ubuntu bionic, instalando drivers...${NORMAL}"
 		echo ""
@@ -120,15 +72,6 @@ if [[ $DESKTOP = ubuntu:GNOME || $DESKTOP = ubuntu || $DESKTOP = GNOME || $DESKT
 		cd ..
 		sudo rm -r nwfermi
 	
-	else
-		echo ""
-		echo -e "${ROJO}Esta instalación no es compatible con tu sistema${NORMAL}" 
-		echo ""
-		echo -e "${ROJO}This install process is not compatible with your system${NORMAL}"
-		echo ""
-		sleep 4
-		exit
-	fi
 
 	echo ""
 	echo -e "${AZUL}continúa el script...${NORMAL}"
@@ -203,14 +146,3 @@ if [[ $DESKTOP = ubuntu:GNOME || $DESKTOP = ubuntu || $DESKTOP = GNOME || $DESKT
 #
 	sudo cp icons/* /usr/share/icons
 	
-# Notificaciones al terminar
-#
-	echo ""
-	echo -e "${ROJO}Reinicie el equipo para que se ejecute la aplicación${NORMAL}"
-	echo ""
-	sudo notify-send "Reinicie el equipo para que se ejecute la aplicación"
-	
-# Borrar los repositorios de git y archivos de instalación
-#
-	cd ..
-	sudo rm -r smartdre
